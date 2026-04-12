@@ -17,3 +17,4 @@ Query to fiscal printer → receive `T_Fiscal`.
 **Krok C – Generowanie hasha**  
 ```python
 Hash_TX = SHA256(DanePacjenta + IDLeku + T_Fiscal + Hash_Poprzedniej)
+Hash_TX = SHA256(PatientData + DrugID + T_Fiscal + PreviousHash)
