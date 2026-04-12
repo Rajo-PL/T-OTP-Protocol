@@ -1,68 +1,97 @@
-T-OTP Protocol: Time-Bound Offline Transaction Protocol
+# T-OTP Protocol: Time-Bound Offline Transaction Protocol
+*Cryptographic guarantee of time continuity in untrusted (offline) environments.* *Kryptograficzna gwarancja ciągłości czasu w środowisku niezaufanym (offline).*
 
-Kryptograficzna gwarancja ciągłości czasu w środowisku niezaufanym (offline).
+---
 
-Executive Summary
+## 🇬🇧 English Version
 
-T-OTP to protokół rozwiązujący krytyczny problem bezpiecznego znacznika czasu (timestampingu) podczas całkowitych awarii sieci w punktach obrotu towarami wrażliwymi (apteki, placówki medyczne).
+### Executive Summary
+T-OTP is a protocol designed to solve the critical problem of secure timestamping during total network outages in environments handling sensitive goods (pharmacies, medical facilities). 
+Unlike standard store-and-forward systems that rely on the PC system clock (which is highly vulnerable to manipulation), T-OTP utilizes sealed hardware modules as a Hardware Oracle. This guarantees the non-repudiation of the exact moment a prescription drug or regulated product was dispensed.
 
-W przeciwieństwie do standardowych systemów store-and-forward, które polegają na zegarze systemowym PC (podatnym na manipulację), T-OTP wykorzystuje zaplombowane moduły sprzętowe jako Hardware Oracle, gwarantując niezaprzeczalność momentu wydania leku lub produktu reglamentowanego.
+### Patent Status
+This technology is legally protected and currently undergoing the patenting process at the **Patent Office of the Republic of Poland (UPRP - [uprp.gov.pl](https://uprp.gov.pl))**.
+* **Application Number:** P.454742 (Filed: February 13, 2026)
+* **Status:** Patent Pending
+* **Core Innovation:** Utilizing fiscal hardware time (GUM homologated) for the validation of non-fiscal authorizations (e-prescriptions).
 
-Patent Status
+### The Three Pillars of T-OTP
+1. **Hardware Time Oracle:** Retrieving time directly from the sealed RTC (Real-Time Clock) module of a fiscal printer. This is the primary source of trust, completely independent of the PC operating system.
+2. **Localchain (Immutable Ledger):** Every offline transaction is mathematically bound to the previous one using a SHA-256 hash function, creating an unbreakable chain.
+3. **Hard Lock Controller:** A physical and logical blockade of the printing mechanism until the cryptographic "Frozen Blob" of the transaction is successfully generated.
 
-Technologia chroniona zgłoszeniem patentowym w Urzędzie Patentowym RP:
-Numer zgłoszenia: P.454742 (złożone 13.02.2026)
-Status: Patent Pending
-Innowacja: Wykorzystanie czasu fiskalnego (GUM) do walidacji uprawnień pozafiskalnych (e-recepta).
+### Protocol Mechanics
+When a network loss is detected (Timeout > 3000ms), the system initiates the "Moment of Freezing" procedure. The core algorithm relies on this mathematical foundation:
 
-The Three Pillars of T-OTP
+$Hash_{TX} = SHA256(Data\_Patient + ID\_Drug + T_{Fiscal} + Hash_{Prev})$
 
-Hardware Time Oracle: Pobieranie czasu z zaplombowanego modułu RTC (Real-Time Clock) drukarki fiskalnej. Jest to źródło nadrzędne i niezależne od systemu operacyjnego.
+When the internet connection is restored (synchronization up to 24h), the central system (e.g., CROK) can mathematically verify that the drug was dispensed before the prescription expired (e.g., at 23:55), even if the data reaches the server the next morning.
 
-Localchain (Immutable Ledger): Każda transakcja offline jest wiązana z poprzednią za pomocą funkcji skrótu SHA-256, tworząc nierozerwalny łańcuch.
+### Repository Contents & Quick Links
 
-Hard Lock Controller: Fizyczna i logiczna blokada mechanizmu drukującego do momentu poprawnego wygenerowania kryptograficznego zamrożenia transakcji (Frozen Blob).
+**Technical & Algorithmic Implementation:**
+* [`algorithm/TOTP_Hybrid.py`](algorithm/TOTP_Hybrid.py) - Core protocol logic and Localchain generation.
+* [`algorithm/multi-source-selector.py`](algorithm/multi-source-selector.py) - Fallback logic for redundant time sources.
+* [`algorithm/privacy-compliance.py`](algorithm/privacy-compliance.py) - Hybrid PKI encryption for GDPR compliance.
+* [`test_totp.py`](test_totp.py) - Automated integrity and anti-tamper verification script.
 
-System Visualization
+**Documentation:**
+* [`docs/api-documentation-en.md`](docs/api-documentation-en.md) - Full API reference.
+* [`docs/mathematical-foundation.md`](docs/mathematical-foundation.md) - Cryptographic formulas and hash logic.
+* [`docs/legal-article-4a-proposal.md`](docs/legal-article-4a-proposal.md) - Legislative proposal for offline timestamps.
+* [`docs/patent-claims.md`](docs/patent-claims.md) - Core patent claims submitted to UPRP.
 
-FIG. 1: System Architecture
-10 - Terminal POS, 11 - Drukarka fiskalna z modułem RTC, 12 - Skaner kodów 2D, 13 - Produkt z Paszportem Partii.
+### System Visualization
+* **FIG. 1: System Architecture** -> [View Diagram](assets/fig1-architecture.png)
+* **FIG. 2: T-OTP Flowchart** -> [View Diagram](assets/fig2-flowchart.png)
+* **FIG. 3: Data Structure (Localchain)** -> [View Diagram](assets/fig3-data-structure.png)
+* **FIG. 4: Hard Lock Mechanism** -> [View Diagram](assets/fig4-hard-lock-logic.png)
 
-FIG. 2: T-OTP Flowchart
-Diagram przepływu sterowania ilustrujący sekwencję kroków od detekcji braku sieci po zapis w lokalnym łańcuchu (Localchain).
+---
 
-FIG. 3: Data Structure (Localchain)
-Kryptograficzne powiązanie kolejnych pakietów danych transakcyjnych zapewniające integralność w trybie offline.
+## 🇵🇱 Wersja Polska
 
-FIG. 4: Hard Lock Mechanism
-Schemat logiczny układu sterowania, gdzie wydruk paragonu zależy od koniunkcji (Bramka AND) sygnałów walidacji.
+### Podsumowanie (Executive Summary)
+T-OTP to protokół rozwiązujący krytyczny problem bezpiecznego znacznika czasu (timestampingu) podczas całkowitych awarii sieci w punktach obrotu towarami wrażliwymi (apteki, placówki medyczne). 
+W przeciwieństwie do standardowych systemów store-and-forward, które polegają na zegarze systemowym PC (podatnym na manipulację), T-OTP wykorzystuje zaplombowane moduły sprzętowe jako Hardware Oracle, gwarantując niezaprzeczalność momentu wydania leku.
 
-Protocol Mechanics
+### Status Patentowy
+Technologia jest chroniona prawnie i została zgłoszona w **Urzędzie Patentowym Rzeczypospolitej Polskiej (UPRP - [uprp.gov.pl](https://uprp.gov.pl))**.
+* **Numer zgłoszenia:** P.454742 (złożone 13.02.2026)
+* **Status:** Patent Pending
+* **Innowacja:** Wykorzystanie zaplombowanego czasu fiskalnego (GUM) do walidacji uprawnień pozafiskalnych (e-recepta).
 
-W momencie wykrycia braku sieci (Timeout powyżej 3000ms), system inicjuje procedurę Momentu Zamrożenia:
+### Trzy Filary T-OTP
+1. **Hardware Time Oracle:** Pobieranie czasu z zaplombowanego modułu RTC (Real-Time Clock) drukarki fiskalnej. Jest to źródło nadrzędne i niezależne od systemu operacyjnego.
+2. **Localchain (Immutable Ledger):** Każda transakcja offline jest wiązana z poprzednią za pomocą funkcji skrótu SHA-256, tworząc nierozerwalny łańcuch.
+3. **Hard Lock Controller:** Fizyczna i logiczna blokada mechanizmu drukującego do momentu poprawnego wygenerowania kryptograficznego zamrożenia transakcji (Frozen Blob).
 
-Hash_TX = SHA256(Data_Patient + ID_Drug + T_Fiscal + Hash_Prev)
+### Zawartość Repozytorium i Linki
 
-Dzięki temu, gdy internet powraca (synchronizacja do 24h), system centralny (np. CROK) może matematycznie zweryfikować, że lek został wydany przed wygaśnięciem recepty (np. o 23:55), mimo że dane dotarły na serwer rano.
+**Implementacja Algorytmiczna:**
+* [`algorithm/TOTP_Hybrid.py`](algorithm/TOTP_Hybrid.py) - Główna logika protokołu i generowanie łańcucha Localchain.
+* [`algorithm/audit-security-logic.py`](algorithm/audit-security-logic.py) - Zabezpieczenia przeciwko fałszerstwom i atakom typu fork.
+* [`algorithm/fail-safe-logic.py`](algorithm/fail-safe-logic.py) - Procedury obsługi awarii sprzętowych (Hardware Fail-Safe).
+* [`test_totp.py`](test_totp.py) - Skrypt testowy udowadniający skuteczność wykrywania manipulacji czasem.
 
-Repository Contents
+**Dokumentacja Prawno-Techniczna:**
+* [`docs/api-documentation-pl.md`](docs/api-documentation-pl.md) - Polska dokumentacja techniczna API.
+* [`docs/legal-article-4a-proposal.md`](docs/legal-article-4a-proposal.md) - Propozycja legislacyjna uregulowania dowodu czasu offline.
+* [`docs/fiscal-printer-integration.md`](docs/fiscal-printer-integration.md) - Szczegóły integracji z urządzeniami fiskalnymi.
+* [`docs/patent-claims.md`](docs/patent-claims.md) - Główne zastrzeżenia patentowe P.454742.
 
-algorithm/ – Implementacja w Pythonie (TOTP_hybrid.py) oraz pseudokod.
-docs/ – Dokumentacja patentowa, propozycja legislacyjna (Art. 4a) i specyfikacja techniczna.
-assets/ – Rysunki techniczne FIG. 1-4 w wysokiej rozdzielczości.
+### Wizualizacja Systemu
+* **FIG. 1: Architektura Systemu** -> [Zobacz Schemat](assets/fig1-architecture.png)
+* **FIG. 2: Przepływ Algorytmu T-OTP** -> [Zobacz Schemat](assets/fig2-flowchart.png)
+* **FIG. 3: Struktura Danych Localchain** -> [Zobacz Schemat](assets/fig3-data-structure.png)
+* **FIG. 4: Logika Blokady Hard Lock** -> [Zobacz Schemat](assets/fig4-hard-lock-logic.png)
 
-Legal Disclaimer and License
+---
 
-Software: Udostępniony na licencji MIT. Możesz swobodnie przeglądać i testować kod.
-Invention: Metoda, algorytm i system T-OTP są przedmiotem ochrony własności przemysłowej (zgłoszenie P.454742). Wykorzystanie komercyjne samego protokołu wymaga zgody autora lub licencji patentowej.
+## Legal Disclaimer and License
+**Software:** Udostępniony na licencji MIT. Możesz swobodnie przeglądać i testować kod logiki kryptograficznej.  
+**Invention:** Metoda, algorytm i system T-OTP są przedmiotem ochrony własności przemysłowej (zgłoszenie P.454742 w UPRP). Wykorzystanie komercyjne samego protokołu wymaga zgody autora lub licencji patentowej.
 
-Contact and Collaboration
-
-Rajo
-Creator of T-OTP Protocol
-Email: [Twój e-mail]
-GitHub: @Rajo-PL
-
-Polska wersja (Skrót)
-
-Protokół T-OTP gwarantuje bezpieczeństwo prawne farmaceuty i pacjenta w warunkach awarii infrastruktury e-zdrowia. Dzięki wykorzystaniu drukarki fiskalnej jako cyfrowego notariusza, możliwe jest udowodnienie ważności transakcji w trybie offline, co eliminuje ryzyko odrzucenia recept przez systemy centralne po przywróceniu łączności.
+## Contact
+**Rajo** - Creator of the T-OTP Protocol  
+GitHub: [@Rajo-PL](https://github.com/Rajo-PL)
