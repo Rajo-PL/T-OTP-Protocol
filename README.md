@@ -5,6 +5,9 @@
 
 ## 🇬🇧 English Version
 
+Extended Description: The T-OTP Protocol solves the critical vulnerability of untrusted system clocks in distributed points of sale . By anchoring the transaction's "Moment of Freezing" to a GUM-homologated fiscal device, the system creates a cryptographic proof of time that remains valid even if synchronized 24 hours later . This repository serves as a technical blueprint for implementing legally binding offline transactions in accordance with MDR and pharmaceutical regulations .
+
+
 ### Executive Summary
 T-OTP is a protocol designed to solve the critical problem of secure timestamping during total network outages in environments handling sensitive goods (pharmacies, medical facilities). 
 Unlike standard store-and-forward systems that rely on the PC system clock (which is highly vulnerable to manipulation), T-OTP utilizes sealed hardware modules as a Hardware Oracle. This guarantees the non-repudiation of the exact moment a prescription drug or regulated product was dispensed.
@@ -50,6 +53,8 @@ When the internet connection is restored (synchronization up to 24h), the centra
 ---
 
 ## 🇵🇱 Wersja Polska
+
+Opis rozszerzony: Protokół T-OTP rozwiązuje krytyczny problem niewiarygodnych zegarów systemowych w rozproszonych punktach sprzedaży . Poprzez zakotwiczenie „Momentu Zamrożenia” transakcji w homologowanym urządzeniu fiskalnym (GUM), system tworzy kryptograficzny dowód czasu, który zachowuje ważność nawet przy synchronizacji z 24-godzinnym opóźnieniem . Repozytorium to służy jako techniczny wzorzec wdrażania prawnie wiążących transakcji offline, zgodnie z MDR i przepisami farmaceutycznymi .
 
 ### Podsumowanie (Executive Summary)
 T-OTP to protokół rozwiązujący krytyczny problem bezpiecznego znacznika czasu (timestampingu) podczas całkowitych awarii sieci w punktach obrotu towarami wrażliwymi (apteki, placówki medyczne). 
