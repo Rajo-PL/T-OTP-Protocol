@@ -1,78 +1,68 @@
-# T-OTP Protocol
+T-OTP Protocol: Time-Bound Offline Transaction Protocol
 
-**Time-Bound Offline Transaction Protocol**
+Kryptograficzna gwarancja ciągłości czasu w środowisku niezaufanym (offline).
 
-Secure offline timestamping and transaction registration for regulated products (pharmaceuticals, medical devices, prescriptions).
+Executive Summary
 
----
+T-OTP to protokół rozwiązujący krytyczny problem bezpiecznego znacznika czasu (timestampingu) podczas całkowitych awarii sieci w punktach obrotu towarami wrażliwymi (apteki, placówki medyczne).
 
-## About
+W przeciwieństwie do standardowych systemów store-and-forward, które polegają na zegarze systemowym PC (podatnym na manipulację), T-OTP wykorzystuje zaplombowane moduły sprzętowe jako Hardware Oracle, gwarantując niezaprzeczalność momentu wydania leku lub produktu reglamentowanego.
 
-T-OTP is a protocol that solves the problem of **secure transaction timestamping during complete network outages** in pharmacies and other points of sale of regulated goods.
+Patent Status
 
-It uses the **sealed Real-Time Clock (RTC) module from a fiscal printer** as a trusted Hardware Oracle, creates an immutable local hash chain (Localchain based on SHA-256), and implements a Hard Lock mechanism to prevent printing a receipt until the transaction is cryptographically secured.
+Technologia chroniona zgłoszeniem patentowym w Urzędzie Patentowym RP:
+Numer zgłoszenia: P.454742 (złożone 13.02.2026)
+Status: Patent Pending
+Innowacja: Wykorzystanie czasu fiskalnego (GUM) do walidacji uprawnień pozafiskalnych (e-recepta).
 
-This provides mathematical proof that a product was dispensed at a specific time, even if synchronization with central systems (CROK, ZSMOPL, P1) occurs many hours later.
+The Three Pillars of T-OTP
 
-**Patent Status**  
-Patent application filed in Poland: **P.454742** (filed 13 February 2026)
+Hardware Time Oracle: Pobieranie czasu z zaplombowanego modułu RTC (Real-Time Clock) drukarki fiskalnej. Jest to źródło nadrzędne i niezależne od systemu operacyjnego.
 
----
+Localchain (Immutable Ledger): Każda transakcja offline jest wiązana z poprzednią za pomocą funkcji skrótu SHA-256, tworząc nierozerwalny łańcuch.
 
-## Key Features
+Hard Lock Controller: Fizyczna i logiczna blokada mechanizmu drukującego do momentu poprawnego wygenerowania kryptograficznego zamrożenia transakcji (Frozen Blob).
 
-- Trusted time source from fiscal printer RTC (GUM-homologated and tamper-resistant)
-- Localchain – immutable SHA-256 hash chain preventing retroactive modifications
-- Hard Lock Controller – blocks receipt printing until transaction is secured
-- Frozen Blob – cryptographically signed offline transaction package
-- Asynchronous Store & Forward synchronization
-- Non-repudiation of transaction time
-- Designed for Business Continuity in critical pharmaceutical systems
+System Visualization
 
----
+FIG. 1: System Architecture
+10 - Terminal POS, 11 - Drukarka fiskalna z modułem RTC, 12 - Skaner kodów 2D, 13 - Produkt z Paszportem Partii.
 
-## How It Works (Simplified)
+FIG. 2: T-OTP Flowchart
+Diagram przepływu sterowania ilustrujący sekwencję kroków od detekcji braku sieci po zapis w lokalnym łańcuchu (Localchain).
 
-1. Network outage detected → Offline Mode
-2. Retrieve trusted timestamp (`T_Fiscal`) from fiscal printer RTC
-3. Generate transaction hash:  
-   `SHA256(PatientData + DrugID + T_Fiscal + PreviousHash)`
-4. Create digital signature and "Frozen Blob"
-5. Print receipt with "TRYB AWARYJNY - OFFLINE" annotation
-6. Store securely locally
-7. Synchronize when network is restored
+FIG. 3: Data Structure (Localchain)
+Kryptograficzne powiązanie kolejnych pakietów danych transakcyjnych zapewniające integralność w trybie offline.
 
----
+FIG. 4: Hard Lock Mechanism
+Schemat logiczny układu sterowania, gdzie wydruk paragonu zależy od koniunkcji (Bramka AND) sygnałów walidacji.
 
-## Repository Contents
+Protocol Mechanics
 
-- `algorithm/` – implementation and pseudocode
-- `docs/` – detailed description and patent documents
-- `examples/` – usage examples
+W momencie wykrycia braku sieci (Timeout powyżej 3000ms), system inicjuje procedurę Momentu Zamrożenia:
 
----
+Hash_TX = SHA256(Data_Patient + ID_Drug + T_Fiscal + Hash_Prev)
 
-## License
+Dzięki temu, gdy internet powraca (synchronizacja do 24h), system centralny (np. CROK) może matematycznie zweryfikować, że lek został wydany przed wygaśnięciem recepty (np. o 23:55), mimo że dane dotarły na serwer rano.
 
-This code is released under the **MIT License**.  
-However, the core inventive concept and method are protected by the pending Polish patent application **P.454742**.
+Repository Contents
 
----
+algorithm/ – Implementacja w Pythonie (TOTP_hybrid.py) oraz pseudokod.
+docs/ – Dokumentacja patentowa, propozycja legislacyjna (Art. 4a) i specyfikacja techniczna.
+assets/ – Rysunki techniczne FIG. 1-4 w wysokiej rozdzielczości.
 
-## Contact & Collaboration
+Legal Disclaimer and License
 
- 
-Creator of T-OTP Protocol  
+Software: Udostępniony na licencji MIT. Możesz swobodnie przeglądać i testować kod.
+Invention: Metoda, algorytm i system T-OTP są przedmiotem ochrony własności przemysłowej (zgłoszenie P.454742). Wykorzystanie komercyjne samego protokołu wymaga zgody autora lub licencji patentowej.
 
-Email: [Twój email]  
+Contact and Collaboration
+
+Rajo
+Creator of T-OTP Protocol
+Email: [Twój e-mail]
 GitHub: @Rajo-PL
 
----
+Polska wersja (Skrót)
 
-**Polska wersja / Polish version**
-
-**T-OTP (Time-Bound Offline Transaction Protocol)** – Bezpieczny protokół znacznika czasu i rejestracji transakcji offline dla produktów reglamentowanych (leki, wyroby medyczne, recepty).
-
-Wykorzystuje zaplombowany moduł RTC drukarki fiskalnej jako zaufane źródło czasu, lokalny łańcuch hash (Localchain) oraz mechanizm Hard Lock. Zapewnia niezaprzeczalność czasu transakcji nawet przy braku internetu.
-
-Zgłoszenie patentowe: **P.454742**
+Protokół T-OTP gwarantuje bezpieczeństwo prawne farmaceuty i pacjenta w warunkach awarii infrastruktury e-zdrowia. Dzięki wykorzystaniu drukarki fiskalnej jako cyfrowego notariusza, możliwe jest udowodnienie ważności transakcji w trybie offline, co eliminuje ryzyko odrzucenia recept przez systemy centralne po przywróceniu łączności.
