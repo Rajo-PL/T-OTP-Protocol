@@ -1,0 +1,29 @@
+Mathematical Foundation of T-OTP
+Fundament matematyczny protokolu T-OTP
+
+1. Localchain Hash Formula
+Wzor hasha lokalnego lancucha
+
+The core of the T-OTP integrity is based on the following SHA-256 hash function, which binds the transaction to a specific point in time and the previous record.
+[cite_start]Sercem integralnosci T-OTP jest ponizsza funkcja skrotu SHA-256, ktora wiaze transakcje z konkretnym punktem w czasie oraz poprzednim rekordem[cite: 18, 208, 248].
+
+Standard formula / Wzor standardowy:
+$Hash_{TX} = SHA256(Data + T_{Fiscal} + Hash_{Prev})$
+
+[cite_start]Detailed version / Pelna wersja [cite: 39, 271]:
+$Hash_{TX} = SHA256(PatientData + DrugID + T_{Fiscal} + PreviousHash)$
+
+2. Localchain Concept
+Koncepcja Localchain
+
+English Version:
+[cite_start]The Localchain is an immutable ledger stored locally during offline operations[cite: 13, 27]. By including the Previous Hash ($Hash_{Prev}$) in every new calculation, we create a cryptographic link. [cite_start]If any past transaction is modified or a new one is "injected" retroactively, the entire chain's checksum is invalidated (Invalid Chain)[cite: 39, 208].
+
+Wersja Polska:
+[cite_start]Localchain to nierozerwalny rejestr przechowywany lokalnie podczas pracy offline[cite: 13, 27]. Poprzez wlaczenie skrotu poprzedniej transakcji ($Hash_{Prev}$) do kazdego nowego obliczenia, tworzymy zwiazek kryptograficzny. [cite_start]Jesli jakakolwiek przeszla transakcja zostanie zmodyfikowana lub nowa zostanie "wstrzyknieta" wstecznie, suma kontrolna calego lancucha zostanie uniewazniona (Invalid Chain)[cite: 39, 208].
+
+3. Hardware Oracle Binding (Moment of Freezing)
+Wiazanie Hardware Oracle (Moment Zamrozenia)
+
+[cite_start]The $T_{Fiscal}$ parameter is retrieved exclusively from a trusted hardware source (e.g., Fiscal Printer RTC), ensuring that the time of transaction is non-repudiable and immune to PC system clock manipulation[cite: 12, 26, 65, 73].
+[cite_start]Parametr $T_{Fiscal}$ jest pobierany wylacznie z zaufanego zrodla sprzetowego (np. RTC drukarki fiskalnej), co zapewnia, ze czas transakcji jest niezaprzeczalny i odporny na manipulacje zegarem systemowym PC[cite: 12, 26, 65, 73].
