@@ -94,9 +94,8 @@ Technologia jest chroniona prawnie i została zgłoszona w **Urzędzie Patentowy
 ---
 
 ## Legal Disclaimer and License
-**Software:** Udostępniony na licencji MIT. Możesz swobodnie przeglądać i testować kod logiki kryptograficznej.  
 **Invention:** Metoda, algorytm i system T-OTP są przedmiotem ochrony własności przemysłowej (zgłoszenie P.454742 w UPRP). Wykorzystanie komercyjne samego protokołu wymaga zgody autora lub licencji patentowej.
 
 ## Contact
-**Rajo** - Creator of the T-OTP Protocol  
+**Rajmund Olszewski** - Creator of the T-OTP Protocol  
 GitHub: [@Rajo-PL](https://github.com/Rajo-PL)
