@@ -94,8 +94,18 @@ Technologia jest chroniona prawnie i została zgłoszona w **Urzędzie Patentowy
 ---
 
 ## Legal Disclaimer and License
-**Invention:** Metoda, algorytm i system T-OTP są przedmiotem ochrony własności przemysłowej (zgłoszenie P.454742 w UPRP). Wykorzystanie komercyjne samego protokołu wymaga zgody autora lub licencji patentowej.
+This repository, including all accompanying code, mathematical models, cryptographic algorithms, hardware-level interlocking logic (Hard Lock Controller), fiscal printer interface layers, and technical documentation, is strictly proprietary and confidential. No license, express or implied, by estoppel or otherwise, is granted to any person or entity to use, copy, modify, merge, publish, distribute, sublicense, perform, display, or sell copies of this software, framework, or its underlying conceptual architectures.
 
-## Contact
-**Rajmund Olszewski** - Creator of the T-OTP Protocol  
-GitHub: [@Rajo-PL](https://github.com/Rajo-PL)
+PATENT PENDING NOTICE:
+The technologies, cyber-physical architectures, algorithms (including the Hardware Time Oracle leveraging sealed GUM-homologated fiscal RTC modules, SHA-256 Localchain immutable ledger sequencing, the "Moment of Freezing" cryptographic transaction blob generation, and physical/logical print-head interlocking controllers), and offline authorization validation methods (e-prescription / non-fiscal entitlement verification) described or implemented herein are strictly protected by industrial and intellectual property rights. 
+
+They are subject to pending patent protection at the Patent Office of the Republic of Poland (UPRP):
+  - Patent Application No.: P.454742 (Filed: February 13, 2026)
+  - Title/Scope: System, method, and protocol for cryptographically anchored offline transaction timestamping and hardware-verified authorization (T-OTP).
+
+Any unauthorized commercial implementation, deployment, reverse engineering, reproduction, derivative work creation, extraction of cryptographic schemas, or hardware-abstraction interception by any entity is strictly prohibited and constitutes direct patent infringement and a breach of trade secrets.
+
+For commercial licensing, B2B integration, IP acquisition, or integration inquiries (CROK, P1/e-Zdrowie, POS/fiscal hardware manufacturers):
+Please contact the author directly.
+
+Copyright (c) 2026 Rajmund Olszewski. All Rights Reserved.
